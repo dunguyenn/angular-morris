@@ -13,7 +13,7 @@ gulp.task 'coffee', ->
     .pipe gulp.dest 'dist'
 
 gulp.task 'watch', ->
-  gulp.watch ['src/**/*.coffee'], ['coffee', 'minify']
+  gulp.watch ['src/**/*.coffee'], ['coffee']
 
 gulp.task 'minify', ->
   gulp.src ['dist/angular-morris.js']

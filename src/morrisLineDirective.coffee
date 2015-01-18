@@ -1,29 +1,30 @@
 class morrisLine
   constructor: () ->
-  restrict: 'A'
+  restrict: 'EA'
   scope:
-    morrisLineData: '='
-    morrisLineXkey: '@'
-    morrisLineYkeys: '@'
-    morrisLineLabels: '@'
-    morrisLineColors: '@'
+    data: '=morrisLineData'
+    xkey: '=morrisLineXkey'
+    ykeys: '=morrisLineYkeys'
+    labels: '=morrisLineLabels'
+    colors: '=morrisLineColors'
   link: (scope, element) ->
-    if scope.morrisLineColors == undefined || scope.morrisLineColors == ''
+    if scope.colors == undefined || scope.colors == ''
       colors = null
     else
-      colors = JSON.parse scope.morrisLineColors
+      colors = scope.colors
     scope.$watch 'morrisLineData', ->
-      if scope.morrisLineData
+      if scope.data
         if !scope.morrisLineInstance
           scope.morrisLineInstance = new Morris.Line
             element: element
-            data: scope.morrisLineData
-            xkey: scope.morrisLineXkey
-            ykeys: JSON.parse scope.morrisLineYkeys
-            labels: JSON.parse scope.morrisLineLabels
+            data: scope.data
+            xkey: scope.xkey
+            ykeys: scope.ykeys
+            labels: scope.labels
+#            resize: true
             lineColors: colors || ['#0b62a4', '#7a92a3', '#4da74d', '#afd8f8', '#edc240', '#cb4b4b', '#9440ed']
         else
-          scope.morrisLineInstance.setData scope.morrisLineData
+          scope.morrisLineInstance.setData scope.data
 
 angular
   .module 'angular-morris'
