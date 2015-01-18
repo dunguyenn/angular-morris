@@ -2,23 +2,23 @@ class morrisBar
   constructor: () ->
   restrict: 'A'
   scope:
-    morrisBarData: '='
+    morrisData: '='
     morrisBarX: '@'
     morrisBarY: '@'
     morrisBarLabels: '@'
   link: (scope, element) ->
     scope.$watch 'morrisBarData', ->
-      if scope.morrisBarData
+      if scope.morrisData
         if !scope.morrisBarInstance
-          scope.barInstance = new Morris.Bar
+          scope.morrisBarInstance = new Morris.Bar
             element: element
-            data: scope.morrisBarData
+            data: scope.morrisData
             xkey: scope.morrisBarX
             ykeys: JSON.parse scope.morrisBarY
             labels: JSON.parse scope.morrisBarLabels
             xLabelMargin: 2
         else
-          scope.morrisBarInstance.setData scope.morrisBarData
+          scope.morrisBarInstance.setData scope.morrisData
 
 angular
   .module 'angular-morris'
