@@ -1,12 +1,9 @@
 class morrisArea
-  constructor: () ->
-  restrict: 'EA'
-  scope:
-    data: '=morrisAreaData'
-    xkey: '=morrisAreaXkey'
-    ykeys: '=morrisAreaYkeys'
-    labels: '=morrisAreaLabels'
-    colors: '=morrisAreaColors'
+  constructor: (@scope) ->
+    @restrict = 'EA'
+    @scope =
+      data: '=morrisAreaData'
+      options: '=morrisAreaOptions'
   link: (scope, element) ->
     if scope.colors == undefined || scope.colors == ''
       colors = null
@@ -15,14 +12,11 @@ class morrisArea
     scope.$watch 'morrisAreaData', ->
       if scope.data
         if !scope.morrisAreaInstance
-          scope.morrisAreaInstance = new Morris.Area
+          config = angular.extend {}, {
             element: element
             data: scope.data
-            xkey: scope.xkey
-            ykeys: scope.ykeys
-            labels: scope.labels
-            lineColors: colors || ['#0b62a4', '#7a92a3', '#4da74d']
-#            resize: true
+          }, scope.options
+          scope.morrisAreaInstance = new Morris.Area config
         else
           scope.morrisAreaInstance.setData scope.data
 

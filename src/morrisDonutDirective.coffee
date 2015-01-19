@@ -1,9 +1,9 @@
 class morrisDonut
-  constructor: () ->
-  restrict: 'A',
-  scope:
-    data: '=morrisDonutData'
-    colors: '=morrisDonutColors'
+  constructor: (@scope) ->
+    @restrict = 'EA'
+    @scope =
+      data: '=morrisDonutData'
+      options: '=morrisDonutOptions'
   link: (scope, element) ->
     if scope.colors == undefined || scope.colors == ''
       colors = null
@@ -12,11 +12,11 @@ class morrisDonut
     scope.$watch 'morrisDonutData', ->
       if scope.data
         if !scope.morrisDonutInstance
-          scope.morrisDonutInstance = new Morris.Donut
+          config = angular.extend {}, {
             element: element
             data: scope.data
-            colors: colors || ['#0b62a4', '#7a92a3', '#4da74d', '#afd8f8', '#edc240', '#cb4b4b', '#9440ed']
-#            resize: true
+          }, scope.options
+          scope.morrisDonutInstance = new Morris.Donut config
         else
           scope.morrisDonutInstance.setData scope.data
 
