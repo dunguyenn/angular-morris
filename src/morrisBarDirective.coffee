@@ -1,26 +1,23 @@
-class morrisBar
-  constructor: (@scope) ->
+class MorrisBar
+  constructor: () ->
     @restrict = 'EA'
     @scope =
       data: '=morrisBarData'
       options: '=morrisBarOptions'
 
   link: (scope, element) ->
-    if scope.colors == undefined || scope.colors == ''
-      colors = null
-    else
-      colors = scope.colors
-    scope.$watch 'morrisBarData', ->
+    scope.$watch 'data', ->
       if scope.data
         if !scope.morrisBarInstance
-          config = angular.extend {}, {
-            element: element
-            data: scope.data
-          }, scope.options
+          config = angular.copy scope.options
+          config.element = element
+          config.data = scope.data
           scope.morrisBarInstance = new Morris.Bar config
         else
           scope.morrisBarInstance.setData scope.data
 
+MorrisBar.$inject = ['$scope', '$element']
+
 angular
   .module 'angular-morris'
-  .directive 'morrisBar', -> new morrisBar
+  .directive 'morrisBar', -> new MorrisBar

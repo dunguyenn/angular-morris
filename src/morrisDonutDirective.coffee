@@ -1,25 +1,23 @@
-class morrisDonut
-  constructor: (@scope) ->
+class MorrisDonut
+  constructor: () ->
     @restrict = 'EA'
     @scope =
       data: '=morrisDonutData'
       options: '=morrisDonutOptions'
+
   link: (scope, element) ->
-    if scope.colors == undefined || scope.colors == ''
-      colors = null
-    else
-      colors = scope.colors
-    scope.$watch 'morrisDonutData', ->
+    scope.$watch 'data', ->
       if scope.data
         if !scope.morrisDonutInstance
-          config = angular.extend {}, {
-            element: element
-            data: scope.data
-          }, scope.options
+          config = angular.copy scope.options
+          config.element = element
+          config.data = scope.data
           scope.morrisDonutInstance = new Morris.Donut config
         else
           scope.morrisDonutInstance.setData scope.data
 
+MorrisDonut.$inject = ['$scope', '$element']
+
 angular
   .module 'angular-morris'
-  .directive 'morrisDonut', -> new morrisDonut
+  .directive 'morrisDonut', -> new MorrisDonut

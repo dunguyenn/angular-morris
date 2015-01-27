@@ -1,25 +1,23 @@
-class morrisArea
-  constructor: (@scope) ->
+class MorrisArea
+  constructor: () ->
     @restrict = 'EA'
     @scope =
       data: '=morrisAreaData'
       options: '=morrisAreaOptions'
+
   link: (scope, element) ->
-    if scope.colors == undefined || scope.colors == ''
-      colors = null
-    else
-      colors = scope.colors
-    scope.$watch 'morrisAreaData', ->
+    scope.$watch 'data', ->
       if scope.data
         if !scope.morrisAreaInstance
-          config = angular.extend {}, {
-            element: element
-            data: scope.data
-          }, scope.options
+          config = angular.copy scope.options
+          config.element = element
+          config.data = scope.data
           scope.morrisAreaInstance = new Morris.Area config
         else
           scope.morrisAreaInstance.setData scope.data
 
+MorrisArea.$inject = ['$scope', '$element']
+
 angular
   .module 'angular-morris'
-  .directive 'morrisArea', -> new morrisArea
+  .directive 'morrisArea', -> new MorrisArea
